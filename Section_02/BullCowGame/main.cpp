@@ -1,54 +1,98 @@
 #include <iostream>
 #include <string>
+#include "FBullCowGame.h"
 
-using namespace std;
 
 void PrintIntro();
 void PlayGame();
-string GetAndReturnGuess();
+std::string GetGuess();
+bool AskToPlayAgain();
 
+/* Tadeo Menichelli
+	Bull and Cow game, guess the word
+*/
 
+// instantiate game
+FBullCowGame BCGame;
+
+/// Beginning of Bulls and Cows
 int main() 
 {
-	PrintIntro();
-
 	PlayGame();
 
-	cout << endl;
+	std::cout << std::endl;
 
 	return 0;
 }
 
+
 void PlayGame()
 {
-	constexpr int NUMBER_OF_TURNS = 5;
+	BCGame.Reset();
+	// start game from start
+	int maxTries = BCGame.GetMaxTries();
+	PrintIntro();
+
 
 	// loop for the number of turns the player has
-	for (int count = 1; count <= NUMBER_OF_TURNS; count++) {
-		string outGuess = GetAndReturnGuess();
+	for (int count = 1; count <= maxTries; count++) {
+		std::string outGuess = GetGuess();
 
-		cout << "Your guess was: " << outGuess << endl;
+		// print guess back
+		std::cout << "Your guess was: " << outGuess << std::endl;
 	}
+
+	AskToPlayAgain();
 }
 
+/// Intro to game
 void PrintIntro()
 {
 	constexpr int WORLD_LENGTH = 9;
 
 	// introduce the game
-	cout << "Welcome to Balls and Cows" << endl;
-	cout << "Can you guess the " << WORLD_LENGTH;
-	cout << " letter isogram I'm thinking of?\n" << endl;
+	std::cout << "Welcome to Balls and Cows" << std::endl;
+	std:: cout << "Can you guess the " << WORLD_LENGTH;
+	std::cout << " letter isogram I'm thinking of?\n" << std::endl;
 	return;
 }
 
-string GetGuess() {
+///
+std::string GetGuess() {
 	// get a guess from the player
-	string guess = "";
-
-	cout << "Enter your guess: ";
-	getline(cin, guess);
+	std::string guess = "";
+	std::cout << std::endl<< "Guess #" << BCGame.GetCurrentTry() <<": ";
+	std::getline(std::cin, guess);
 
 	// return player's guess
 	return guess;
+}
+
+bool AskToPlayAgain()
+{
+	bool correctInput = true;
+	std::cout << "Do you want to play again? ";
+	std::string response = "";
+	std::getline(std::cin, response);
+
+	do {
+		// if player says yes, then clear screen and play again
+		if (response[0] == 'y' || response[0] == 'Y') {
+			system("cls");
+			PlayGame();
+			return true;
+		}
+		// if play says no, end the game
+		else if (response[0] == 'n' || response[0] == 'N') {
+			return false;
+		}
+		// make the do/while loop repeat until player inputs yes or no
+		else {
+			std::cout << "Please type yes/no: ";
+			correctInput = false;
+			std::getline(std::cin, response);
+		}
+	} while (correctInput == false);
+
+	return false;
 }
