@@ -8,3 +8,6 @@
 #ifndef BUILDINGESCAPE_BuildingEscapeGameModeBase_generated_h
 	#include "BuildingEscapeGameModeBase.h"
 #endif
+#ifndef BUILDINGESCAPE_PositionReporter_generated_h
+	#include "PositionReporter.h"
+#endif
